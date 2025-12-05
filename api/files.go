@@ -198,6 +198,8 @@ func apiFilesListFiles(c *gin.Context) {
 	c.JSON(200, list)
 }
 
+type deleteFileResponse struct{}
+
 // @Summary Delete Directory
 // @Description **Delete upload directory and uploaded files within**
 // @Description
@@ -209,7 +211,7 @@ func apiFilesListFiles(c *gin.Context) {
 // @Tags Files
 // @Produce json
 // @Param dir path string true "Directory"
-// @Success 200 {object} string "msg"
+// @Success 200 {object} deleteFileResponse "directory deleted"
 // @Failure 500 {object} Error "Internal Server Error"
 // @Router /api/files/{dir} [delete]
 func apiFilesDeleteDir(c *gin.Context) {
@@ -223,7 +225,7 @@ func apiFilesDeleteDir(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, gin.H{})
+	c.JSON(200, deleteFileResponse{})
 }
 
 // @Summary Delete File
@@ -238,7 +240,7 @@ func apiFilesDeleteDir(c *gin.Context) {
 // @Produce json
 // @Param dir path string true "Directory to delete from"
 // @Param name path string true "File to delete"
-// @Success 200 {object} string "msg"
+// @Success 200 {object} deleteFileResponse "file deleted"
 // @Failure 400 {object} Error "Bad Request"
 // @Failure 500 {object} Error "Internal Server Error"
 // @Router /api/files/{dir}/{name} [delete]
@@ -262,5 +264,5 @@ func apiFilesDeleteFile(c *gin.Context) {
 		}
 	}
 
-	c.JSON(200, gin.H{})
+	c.JSON(200, deleteFileResponse{})
 }
