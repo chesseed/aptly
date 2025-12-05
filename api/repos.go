@@ -316,8 +316,8 @@ func apiReposDrop(c *gin.Context) {
 // @Param format query string true "Set to 'details' to return extra info about each package"
 // @Param maximumVersion query string true "Set to 1 to only return the highest version for each package name"
 // @Produce json
-// APIERROR: returns []string or []deb.Package
-// @Success 200 {object} string "msg"
+// APIERROR: returns []string or []deb.Package, not possible in swag 1.X
+// @Success 200 {array} string "Package info"
 // @Failure 404 {object} Error "Not Found"
 // @Failure 404 {object} Error "Internal Server Error"
 // @Router /api/repos/{name}/packages [get]

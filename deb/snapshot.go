@@ -20,25 +20,26 @@ type Snapshot struct {
 	// Persisten internal ID
 	UUID string `codec:"UUID" json:"-"`
 	// Human-readable name
-	Name string
+	Name string `json:"Name"`
 	// Date of creation
-	CreatedAt time.Time
+	CreatedAt time.Time `json:"CreatedAt"`
 
 	// Source: kind + ID
-	SourceKind string   `codec:"SourceKind"`
+	SourceKind string   `codec:"SourceKind" json:"SourceKind"`
 	SourceIDs  []string `codec:"SourceIDs" json:"-"`
 	// Sources
-	Snapshots   []*Snapshot   `codec:"-" json:",omitempty"`
-	RemoteRepos []*RemoteRepo `codec:"-" json:",omitempty"`
-	LocalRepos  []*LocalRepo  `codec:"-" json:",omitempty"`
-	Packages    []string      `codec:"-" json:",omitempty"`
+	// APITODO: check if "-" ist correct
+	Snapshots   []*Snapshot   `codec:"-" json:"-"`
+	RemoteRepos []*RemoteRepo `codec:"-" json:"-"`
+	LocalRepos  []*LocalRepo  `codec:"-" json:"-"`
+	Packages    []string      `codec:"-" json:"-"`
 
 	// Description of how snapshot was created
-	Description string
+	Description string `json:"Description"`
 
-	Origin               string
-	NotAutomatic         string
-	ButAutomaticUpgrades string
+	Origin               string `json:"Origin"`
+	NotAutomatic         string `json:"NotAutomatic"`
+	ButAutomaticUpgrades string `json:"ButAutomaticUpgrades"`
 
 	packageRefs *PackageRefList
 }

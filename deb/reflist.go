@@ -156,7 +156,14 @@ func (l *PackageRefList) Subtract(r *PackageRefList) *PackageRefList {
 // If left is nil, package is present only in right
 // If right is nil, package is present only in left
 type PackageDiff struct {
-	Left, Right *Package
+	Left  *Package
+	Right *Package
+}
+
+// Package diff sent out via REST API
+type PackageDiffSerialized struct {
+	Left  *string `json:"Left"`
+	Right *string `json:"Right"`
 }
 
 // Check interface
@@ -166,9 +173,7 @@ var (
 
 // MarshalJSON implements json.Marshaler interface
 func (d PackageDiff) MarshalJSON() ([]byte, error) {
-	serialized := struct {
-		Left, Right *string
-	}{}
+	serialized := PackageDiffSerialized{}
 
 	if d.Left != nil {
 		serialized.Left = pointer.ToString(string(d.Left.Key("")))

@@ -429,7 +429,7 @@ func apiSnapshotsDrop(c *gin.Context) {
 // @Param name path string true "Snapshot name"
 // @Param withSnapshot path string true "Snapshot name to diff against"
 // @Param onlyMatching query string false "Only return packages present in both snapshots"
-// @Success 200 {array} deb.PackageDiff "Package Diff"
+// @Success 200 {array} deb.PackageDiffSerialized "Package Diff"
 // @Failure 404 {object} Error "Snapshot Not Found"
 // @Failure 500 {object} Error "Internal Server Error"
 // @Router /api/snapshots/{name}/diff/{withSnapshot} [get]
@@ -493,6 +493,7 @@ func apiSnapshotsDiff(c *gin.Context) {
 // @Param withDeps query string false "Set to 1 to include dependencies when evaluating package query"
 // @Param format query string false "Set to 'details' to return extra info about each package"
 // @Param maximumVersion query string false "Set to 1 to only return the highest version for each package name"
+// APIERROR: returns []string or []deb.Package, not possible in swag 1.X
 // @Success 200 {array} string "Package info"
 // @Failure 404 {object} Error "Snapshot Not Found"
 // @Failure 500 {object} Error "Internal Server Error"
