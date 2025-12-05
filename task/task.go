@@ -48,9 +48,9 @@ type Task struct {
 	process            Process
 	processReturnValue *ProcessReturnValue
 	err                error
-	Name               string
-	ID                 int
-	State              State
+	Name               string `json:"Name"`
+	ID                 int    `json:"ID"`
+	State              State  `json:"State"`
 	resources          []string
 	wgTask             *sync.WaitGroup
 }

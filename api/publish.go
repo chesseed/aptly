@@ -74,7 +74,7 @@ func slashEscape(path string) string {
 // @Description See also: `aptly publish list`
 // @Tags Publish
 // @Produce json
-// @Success 200 {array} deb.PublishedRepo
+// @Success 200 {array} deb.PublishedRepoSerialized
 // @Failure 500 {object} Error "Internal Error"
 // @Router /api/publish [get]
 func apiPublishList(c *gin.Context) {
@@ -112,7 +112,7 @@ func apiPublishList(c *gin.Context) {
 // @Produce json
 // @Param prefix path string true "publishing prefix, use `:.` instead of `.` because it is ambigious in URLs"
 // @Param distribution path string true "distribution name"
-// @Success 200 {object} deb.PublishedRepo
+// @Success 200 {object} deb.PublishedRepoSerialized
 // @Failure 404 {object} Error "Published repository not found"
 // @Failure 500 {object} Error "Internal Error"
 // @Router /api/publish/{prefix}/{distribution} [get]
@@ -192,7 +192,7 @@ type publishedRepoCreateParams struct {
 // @Consume json
 // @Param request body publishedRepoCreateParams true "Parameters"
 // @Produce json
-// @Success 201 {object} deb.PublishedRepo
+// @Success 201 {object} deb.PublishedRepoSerialized
 // @Failure 400 {object} Error "Bad Request"
 // @Failure 404 {object} Error "Source not found"
 // @Failure 500 {object} Error "Internal Error"
@@ -399,7 +399,7 @@ type publishedRepoUpdateSwitchParams struct {
 // @Consume json
 // @Param request body publishedRepoUpdateSwitchParams true "Parameters"
 // @Produce json
-// @Success 200 {object} deb.PublishedRepo
+// @Success 200 {object} deb.PublishedRepoSerialized
 // @Failure 400 {object} Error "Bad Request"
 // @Failure 404 {object} Error "Published repository or source not found"
 // @Failure 500 {object} Error "Internal Error"
@@ -971,7 +971,7 @@ type publishedRepoUpdateParams struct {
 // @Consume json
 // @Param request body publishedRepoUpdateParams true "Parameters"
 // @Produce json
-// @Success 200 {object} deb.PublishedRepo
+// @Success 200 {object} deb.PublishedRepoSerialized
 // @Failure 400 {object} Error "Bad Request"
 // @Failure 404 {object} Error "Published repository/component not found"
 // @Failure 500 {object} Error "Internal Error"

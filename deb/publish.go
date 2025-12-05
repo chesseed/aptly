@@ -88,6 +88,26 @@ type PublishedRepo struct {
 	Revision *PublishedRepoRevision
 }
 
+// PublishedRepo is a published for http/ftp representation of snapshot as Debian repository
+type PublishedRepoSerialized struct {
+	AcquireByHash        bool          `json:"AcquireByHash"`
+	Architectures        []string      `json:"Architectures"`
+	ButAutomaticUpgrades string        `json:"ButAutomaticUpgrades"`
+	Codename             string        `json:"Codename"`
+	Distribution         string        `json:"Distribution"`
+	Label                string        `json:"Label"`
+	MultiDist            bool          `json:"MultiDist"`
+	NotAutomatic         string        `json:"NotAutomatic"`
+	Origin               string        `json:"Origin"`
+	Path                 string        `json:"Path"`
+	Prefix               string        `json:"Prefix"`
+	SkipContents         bool          `json:"SkipContents"`
+	SourceKind           string        `json:"SourceKind"`
+	Sources              []SourceEntry `json:"Sources"`
+	Storage              string        `json:"Storage"`
+	Suite                string        `json:"Suite"`
+}
+
 type PublishedRepoRevision struct {
 	// Map of sources: component name -> snapshot name/local repo Name
 	Sources map[string]string
@@ -513,23 +533,23 @@ func (p *PublishedRepo) MarshalJSON() ([]byte, error) {
 		})
 	}
 
-	return json.Marshal(map[string]interface{}{
-		"Architectures":        p.Architectures,
-		"Distribution":         p.Distribution,
-		"Label":                p.Label,
-		"Origin":               p.Origin,
-		"Suite":                p.Suite,
-		"Codename":             p.Codename,
-		"NotAutomatic":         p.NotAutomatic,
-		"ButAutomaticUpgrades": p.ButAutomaticUpgrades,
-		"Prefix":               p.Prefix,
-		"Path":                 p.GetPath(),
-		"SourceKind":           p.SourceKind,
-		"Sources":              sources,
-		"Storage":              p.Storage,
-		"SkipContents":         p.SkipContents,
-		"AcquireByHash":        p.AcquireByHash,
-		"MultiDist":            p.MultiDist,
+	return json.Marshal(PublishedRepoSerialized{
+		Architectures:        p.Architectures,
+		Distribution:         p.Distribution,
+		Label:                p.Label,
+		Origin:               p.Origin,
+		Suite:                p.Suite,
+		Codename:             p.Codename,
+		NotAutomatic:         p.NotAutomatic,
+		ButAutomaticUpgrades: p.ButAutomaticUpgrades,
+		Prefix:               p.Prefix,
+		Path:                 p.GetPath(),
+		SourceKind:           p.SourceKind,
+		Sources:              sources,
+		Storage:              p.Storage,
+		SkipContents:         p.SkipContents,
+		AcquireByHash:        p.AcquireByHash,
+		MultiDist:            p.MultiDist,
 	})
 }
 

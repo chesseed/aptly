@@ -9,11 +9,11 @@ import (
 
 type diskFree struct {
 	// Storage size [MiB]
-	Total uint64
+	Total uint64 `json:"Total"`
 	// Available Storage [MiB]
-	Free uint64
+	Free uint64 `json:"Free"`
 	// Percentage Full
-	PercentFull float32
+	PercentFull float32 `json:"PercentFull"`
 }
 
 // @Summary Get Storage Utilization
