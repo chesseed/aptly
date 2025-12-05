@@ -377,7 +377,7 @@ func apiSnapshotsShow(c *gin.Context) {
 // @Param force query string false "Force operation"
 // @Param _async query bool false "Run in background and return task object"
 // @Produce json
-// @Success 200 ""
+// @Success 200
 // @Failure 404 {object} Error "Snapshot Not Found"
 // @Failure 409 {object} Error "Snapshot in use"
 // @Failure 500 {object} Error "Internal Server Error"

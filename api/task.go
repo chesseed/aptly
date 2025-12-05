@@ -22,7 +22,7 @@ func apiTasksList(c *gin.Context) {
 // @Description **Removes finished and failed tasks from internal task list**
 // @Tags Tasks
 // @Produce json
-// @Success 200 ""
+// @Success 200
 // @Router /api/tasks-clear [post]
 func apiTasksClear(c *gin.Context) {
 	list := context.TaskList()
@@ -34,7 +34,7 @@ func apiTasksClear(c *gin.Context) {
 // @Description **Waits for and returns when all running tasks are complete**
 // @Tags Tasks
 // @Produce json
-// @Success 200 ""
+// @Success 200
 // @Router /api/tasks-wait [get]
 func apiTasksWait(c *gin.Context) {
 	list := context.TaskList()

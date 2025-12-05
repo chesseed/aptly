@@ -48,7 +48,7 @@ func reposListInAPIMode(localRepos map[string]utils.FileSystemPublishRoot) gin.H
 // @Param storage path string true "Storage"
 // @Param pkgPath path string true "Package Path" allowReserved=true
 // @Produce json
-// @Success 200 ""
+// @Success 200
 // @Router /api/{storage}/{pkgPath} [get]
 func reposServeInAPIMode(c *gin.Context) {
 	pkgpath := c.Param("pkgPath")

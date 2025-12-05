@@ -209,7 +209,7 @@ func apiFilesListFiles(c *gin.Context) {
 // @Tags Files
 // @Produce json
 // @Param dir path string true "Directory"
-// @Success 200 ""
+// @Success 200
 // @Failure 500 {object} Error "Internal Server Error"
 // @Router /api/files/{dir} [delete]
 func apiFilesDeleteDir(c *gin.Context) {
@@ -238,7 +238,7 @@ func apiFilesDeleteDir(c *gin.Context) {
 // @Produce json
 // @Param dir path string true "Directory to delete from"
 // @Param name path string true "File to delete"
-// @Success 200 ""
+// @Success 200
 // @Failure 400 {object} Error "Bad Request"
 // @Failure 500 {object} Error "Internal Server Error"
 // @Router /api/files/{dir}/{name} [delete]
