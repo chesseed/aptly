@@ -88,7 +88,7 @@ type PublishedRepo struct {
 	Revision *PublishedRepoRevision
 }
 
-// PublishedRepo is a published for http/ftp representation of snapshot as Debian repository
+// intermediate type for swagger docs used in PublishedRepo.MarshalJSON
 type PublishedRepoSerialized struct {
 	AcquireByHash        bool          `json:"AcquireByHash"`
 	Architectures        []string      `json:"Architectures"`
