@@ -35,41 +35,41 @@ const (
 // Repository could be filtered when fetching by components, architectures
 type RemoteRepo struct {
 	// Permanent internal ID
-	UUID string
+	UUID string `json:"-"` // exclude from json output
 	// User-assigned name
-	Name string
+	Name string `json:"Name"`
 	// Root of Debian archive, URL
-	ArchiveRoot string
+	ArchiveRoot string `json:"ArchiveRoot"`
 	// Distribution name, e.g. squeeze
-	Distribution string
+	Distribution string `json:"Distribution"`
 	// List of components to fetch, if empty, then fetch all components
-	Components []string
+	Components []string `json:"Components"`
 	// List of architectures to fetch, if empty, then fetch all architectures
-	Architectures []string
+	Architectures []string `json:"Architectures"`
 	// Meta-information about repository
-	Meta Stanza
+	Meta Stanza `json:"Meta"`
 	// Last update date
-	LastDownloadDate time.Time
+	LastDownloadDate time.Time `json:"LastDownloadDate"`
 	// Checksums for release files
 	ReleaseFiles map[string]utils.ChecksumInfo `json:"-"` // exclude from json output
 	// Filter for packages
-	Filter string
+	Filter string `json:"Filter"`
 	// Status marks state of repository (being updated, no action)
-	Status int
+	Status int `json:"Status"`
 	// WorkerPID is PID of the process modifying the mirror (if any)
-	WorkerPID int
+	WorkerPID int `json:"WorkerPID"`
 	// FilterWithDeps to include dependencies from filter query
-	FilterWithDeps bool
+	FilterWithDeps bool `json:"FilterWithDeps"`
 	// SkipComponentCheck skips component list verification
-	SkipComponentCheck bool
+	SkipComponentCheck bool `json:"SkipComponentCheck"`
 	// SkipArchitectureCheck skips architecture list verification
-	SkipArchitectureCheck bool
+	SkipArchitectureCheck bool `json:"SkipArchitectureCheck"`
 	// Should we download sources?
-	DownloadSources bool
+	DownloadSources bool `json:"DownloadSources"`
 	// Should we download .udebs?
-	DownloadUdebs bool
+	DownloadUdebs bool `json:"DownloadUdebs"`
 	// Should we download installer files?
-	DownloadInstaller bool
+	DownloadInstaller bool `json:"DownloadInstaller"`
 	// Packages for json output
 	Packages []string `codec:"-" json:",omitempty"`
 	// "Snapshot" of current list of packages
