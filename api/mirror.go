@@ -166,7 +166,7 @@ func apiMirrorsCreate(c *gin.Context) {
 // @Param force query int true "force: 1 to enable"
 // @Param _async query bool false "Run in background and return task object"
 // @Produce json
-// @Success 200 {object} task.ProcessReturnValue
+// @Success 200
 // @Failure 404 {object} Error "Mirror not found"
 // @Failure 403 {object} Error "Unable to delete mirror with snapshots"
 // @Failure 500 {object} Error "Unable to delete"
@@ -353,7 +353,7 @@ type mirrorUpdateParams struct {
 // @Param request body mirrorUpdateParams true "Parameters"
 // @Param _async query bool false "Run in background and return task object"
 // @Produce json
-// @Success 200 {object} task.ProcessReturnValue "Mirror was updated successfully"
+// @Success 200 "Mirror was updated successfully"
 // @Success 202 {object} task.Task "Mirror is being updated"
 // @Failure 400 {object} Error "Unable to determine list of architectures"
 // @Failure 404 {object} Error "Mirror not found"
