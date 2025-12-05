@@ -316,6 +316,7 @@ func apiReposDrop(c *gin.Context) {
 // @Param format query string true "Set to 'details' to return extra info about each package"
 // @Param maximumVersion query string true "Set to 1 to only return the highest version for each package name"
 // @Produce json
+// APIERROR: returns []string or []deb.Package
 // @Success 200 {object} string "msg"
 // @Failure 404 {object} Error "Not Found"
 // @Failure 404 {object} Error "Internal Server Error"
@@ -414,7 +415,7 @@ func apiReposPackagesAddDelete(c *gin.Context, taskNamePrefix string, cb func(li
 // @Param request body reposPackagesAddDeleteParams true "Parameters"
 // @Param _async query bool false "Run in background and return task object"
 // @Produce json
-// @Success 200 {object} string "msg"
+// @Success 200 {object} deb.LocalRepo
 // @Failure 400 {object} Error "Bad Request"
 // @Failure 404 {object} Error "Not Found"
 // @Failure 400 {object} Error "Internal Server Error"
@@ -436,7 +437,7 @@ func apiReposPackagesAdd(c *gin.Context) {
 // @Consume  json
 // @Param request body reposPackagesAddDeleteParams true "Parameters"
 // @Produce json
-// @Success 200 {object} string "msg"
+// @Success 200 {object} deb.LocalRepo
 // @Failure 400 {object} Error "Bad Request"
 // @Failure 404 {object} Error "Not Found"
 // @Failure 400 {object} Error "Internal Server Error"
@@ -449,6 +450,12 @@ func apiReposPackagesDelete(c *gin.Context) {
 	})
 }
 
+// same type for and and include operations
+type reposIncludePackageFromDirResponse struct {
+	Report      *aptly.RecordingResultReporter `json:"Report"`
+	FailedFiles []string                       `json:"FailedFiles"`
+}
+
 // @Summary Add Uploaded File
 // @Description Import packages from files (uploaded using File Upload API) to the local repository. If directory specified, aptly would discover package files automatically.
 // @Description Adding same package to local repository is not an error.
@@ -459,7 +466,7 @@ func apiReposPackagesDelete(c *gin.Context) {
 // @Param file path string true "Filename"
 // @Param _async query bool false "Run in background and return task object"
 // @Produce json
-// @Success 200 {string} string "OK"
+// @Success 200 {object} reposIncludePackageFromDirResponse "OK"
 // @Failure 400 {object} Error "wrong file"
 // @Failure 404 {object} Error "Repository not found"
 // @Failure 500 {object} Error "Error adding files"
@@ -481,7 +488,7 @@ func apiReposPackageFromFile(c *gin.Context) {
 // @Param forceReplace query string false "when value is set to 1, remove packages conflicting with package being added (in local repository)"
 // @Param _async query bool false "Run in background and return task object"
 // @Produce  json
-// @Success 200 {string} string "OK"
+// @Success 200 {object} reposIncludePackageFromDirResponse "OK"
 // @Failure 400 {object} Error "wrong file"
 // @Failure 404 {object} Error "Repository not found"
 // @Failure 500 {object} Error "Error adding files"
@@ -597,10 +604,11 @@ func apiReposPackageFromDir(c *gin.Context) {
 			out.Printf("Failed files: %s\n", strings.Join(failedFiles, ", "))
 		}
 
-		return &task.ProcessReturnValue{Code: http.StatusOK, Value: gin.H{
-			"Report":      reporter,
-			"FailedFiles": failedFiles,
-		}}, nil
+		ret := reposIncludePackageFromDirResponse{
+			Report:      reporter,
+			FailedFiles: failedFiles,
+		}
+		return &task.ProcessReturnValue{Code: http.StatusOK, Value: ret}, nil
 	})
 }
 
@@ -611,6 +619,10 @@ type reposCopyPackageParams struct {
 	DryRun bool `json:"dry-run,omitempty"`
 }
 
+type reposCopyPackageResponse struct {
+	Report *aptly.RecordingResultReporter `json:"Report"`
+}
+
 // @Summary Copy Package
 // @Description Copies a package from a source to destination repository
 // @Tags Repos
@@ -619,7 +631,7 @@ type reposCopyPackageParams struct {
 // @Param src path string true "Source repo"
 // @Param file path string true "File/packages to copy"
 // @Param _async query bool false "Run in background and return task object"
-// @Success 200 {object} task.ProcessReturnValue "msg"
+// @Success 200 {object} reposCopyPackageResponse "OK"
 // @Failure 400 {object} Error "Bad Request"
 // @Failure 404 {object} Error "Not Found"
 // @Failure 422 {object} Error "Unprocessable Entity"
@@ -760,9 +772,10 @@ func apiReposCopyPackage(c *gin.Context) {
 			}
 		}
 
-		return &task.ProcessReturnValue{Code: http.StatusOK, Value: gin.H{
-			"Report": reporter,
-		}}, nil
+		ret := reposCopyPackageResponse{
+			Report: reporter,
+		}
+		return &task.ProcessReturnValue{Code: http.StatusOK, Value: ret}, nil
 	})
 }
 
@@ -778,17 +791,12 @@ func apiReposCopyPackage(c *gin.Context) {
 // @Param ignoreSignature query int false "when value is set to 1 disable verification of .changes file signature"
 // @Param _async query bool false "Run in background and return task object"
 // @Produce json
-// @Success 200 {object} string "msg"
+// @Success 200 {object} reposIncludePackageFromDirResponse "Response"
 // @Failure 404 {object} Error "Not Found"
 // @Router /api/repos/{name}/include/{dir}/{file} [post]
 func apiReposIncludePackageFromFile(c *gin.Context) {
 	// redirect all work to dir method
 	apiReposIncludePackageFromDir(c)
-}
-
-type reposIncludePackageFromDirResponse struct {
-	Report      *aptly.RecordingResultReporter
-	FailedFiles []string
 }
 
 // @Summary Include Directory

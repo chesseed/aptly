@@ -16,13 +16,13 @@ type LocalRepo struct {
 	// Permanent internal ID
 	UUID string `codec:"UUID" json:"-"`
 	// User-assigned name
-	Name string
+	Name string `json:"Name"`
 	// Comment
-	Comment string
+	Comment string `json:"Comment"`
 	// DefaultDistribution
-	DefaultDistribution string `codec:",omitempty"`
+	DefaultDistribution string `codec:",omitempty" json:"DefaultDistribution"`
 	// DefaultComponent
-	DefaultComponent string `codec:",omitempty"`
+	DefaultComponent string `codec:",omitempty" json:"DefaultComponent"`
 	// Uploaders configuration
 	Uploaders *Uploaders `codec:"Uploaders,omitempty" json:"-"`
 	// "Snapshot" of current list of packages
